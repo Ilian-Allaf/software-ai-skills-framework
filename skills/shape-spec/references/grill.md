@@ -29,6 +29,7 @@ Format a round like so:
 - A question whose answer depends on another open question in this round waits for a later round.
 - Dig into each answer. An answer that opens a branch, names a case you had not seen, or hesitates gets its follow-up in the next round, until the branch is settled, not only the question answered.
 - Each round of answers moves the frontier. Recompute it and ask the next round.
+- When a subagent returns while a round waits on the user, send nothing new. Its facts go into the next round; when one changes a question already asked, send the round again with that question changed, in the same format.
 
 ## What the code already does
 
@@ -57,7 +58,7 @@ The means of proof are facts: look up the drivers and formal checks of the area 
 
 ## Facts are yours, decisions are the user's
 
-When a question needs a fact from the code, the docs, or a tool, spawn a fresh subagent to find it. Never ask the user for something you could look up. Do not wait for it: only the questions downstream of that fact wait; ask the rest now.
+When a question needs a fact from the code, the docs, or a tool, spawn a fresh subagent to find it, and keep only its findings: the agent who interviews reads no code itself, so the code never buries the interview in its context. Never ask the user for something you could look up. Do not wait for it: only the questions downstream of that fact wait; ask the rest now.
 
 When an answer is something you could observe by running a small experiment, prototype instead of asking.
 
